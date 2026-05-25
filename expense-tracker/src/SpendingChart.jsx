@@ -16,7 +16,8 @@ export default function SpendingChart({ transactions }) {
   const expensesByCategory = transactions
     .filter(t => t.type === 'expense')
     .reduce((acc, t) => {
-      acc[t.category] = (acc[t.category] || 0) + t.amount;
+      const v = Number(t.amount);
+      if (isFinite(v)) acc[t.category] = (acc[t.category] || 0) + v;
       return acc;
     }, {});
 
@@ -55,7 +56,7 @@ export default function SpendingChart({ transactions }) {
             width={58}
           />
           <Tooltip
-            formatter={(value) => [`$${value.toFixed(2)}`, 'Spent']}
+            formatter={(value) => [`$${Number(value).toFixed(2)}`, 'Spent']}
             contentStyle={{
               background: '#1e293b',
               border: '1px solid rgba(255,255,255,0.1)',

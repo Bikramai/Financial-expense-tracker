@@ -36,7 +36,7 @@
 }
 
 body {
-  background: var(--bg);
+  background-color: var(--bg);
   color: var(--text-1);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
@@ -305,11 +305,14 @@ body {
 .filter-select option { background: #1e293b; }
 
 /* Table */
-.transactions-table {
-  background: var(--card);
+.transactions-table-wrap {
   border: 1px solid var(--card-border);
   border-radius: var(--r);
   overflow: hidden;
+}
+
+.transactions-table {
+  background: var(--card);
   width: 100%;
   border-collapse: collapse;
 }
@@ -376,6 +379,7 @@ body {
 .cat-entertainment { background: rgba(236,  72, 153, 0.13); color: #f472b6; }
 .cat-salary        { background: rgba( 16, 185, 129, 0.13); color: #34d399; }
 .cat-other         { background: rgba(107, 114, 128, 0.13); color: #9ca3af; }
+.cat-unknown       { background: var(--accent-dim); color: var(--accent); }
 
 /* Amount in table */
 .tx-amount {
@@ -407,6 +411,54 @@ body {
   border-color: rgba(244, 63, 94, 0.25);
   color: var(--expense);
 }
+
+/* Safari: apply border-radius to corner cells so hover clips correctly */
+.transactions-table thead tr:first-child th:first-child { border-top-left-radius: calc(var(--r) - 1px); }
+.transactions-table thead tr:first-child th:last-child  { border-top-right-radius: calc(var(--r) - 1px); }
+.transactions-table tbody tr:last-child td:first-child  { border-bottom-left-radius: calc(var(--r) - 1px); }
+.transactions-table tbody tr:last-child td:last-child   { border-bottom-right-radius: calc(var(--r) - 1px); }
+
+/* Form validation error */
+.form-error {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--expense);
+  font-weight: 500;
+}
+
+/* Inline delete confirmation */
+.delete-confirm {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.confirm-yes-btn,
+.confirm-no-btn {
+  padding: 3px 10px;
+  border-radius: var(--r-sm);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: opacity 0.15s;
+}
+
+.confirm-yes-btn {
+  background: var(--expense-dim);
+  color: var(--expense);
+  border-color: rgba(244, 63, 94, 0.25);
+}
+
+.confirm-no-btn {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-2);
+  border-color: var(--card-border-strong);
+}
+
+.confirm-yes-btn:hover { opacity: 0.8; }
+.confirm-no-btn:hover  { opacity: 0.8; }
 
 /* ---- Animations ---- */
 @keyframes fadeSlideUp {

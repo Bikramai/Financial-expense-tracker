@@ -5,15 +5,19 @@ function TransactionForm({ categories, onAdd }) {
   const [amount, setAmount] = useState('');
   const [type, setType] = useState('expense');
   const [category, setCategory] = useState('food');
+  const [error, setError] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!description || !amount) return;
+    const parsed = parseFloat(amount);
+    if (!description.trim()) { setError('Description is required.'); return; }
+    if (isNaN(parsed) || parsed <= 0) { setError('Enter a valid amount greater than 0.'); return; }
+    setError('');
 
     onAdd({
       id: Date.now(),
       description,
-      amount: parseFloat(amount),
+      amount: parsed,
       type,
       category,
       date: new Date().toISOString().split('T')[0],
@@ -36,7 +40,7 @@ function TransactionForm({ categories, onAdd }) {
               type="text"
               placeholder="What was it for?"
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e) => { setDescription(e.target.value); setError(''); }}
             />
           </div>
           <div className="form-field">
@@ -45,7 +49,7 @@ function TransactionForm({ categories, onAdd }) {
               type="number"
               placeholder="0.00"
               value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={(e) => { setAmount(e.target.value); setError(''); }}
               min="0"
               step="0.01"
             />
@@ -81,6 +85,7 @@ function TransactionForm({ categories, onAdd }) {
           </div>
           <button type="submit" className="submit-btn">Add Transaction</button>
         </div>
+        {error && <p className="form-error">{error}</p>}
       </form>
     </div>
   );
